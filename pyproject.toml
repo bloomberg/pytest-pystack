@@ -1,0 +1,46 @@
+[build-system]
+requires = [
+     "setuptools>=63.0.0",
+]
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = "pytest-pystack"
+version = "1.0.0"
+description = "Plugin to run pystack after a timeout for a test suite."
+requires-python = ">=3.8"
+dependencies = [
+    "pytest>=3.5.0",
+    "pystack",
+]
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+keywords = ["pytest", "debugging", "hung", "pystack", "bloomberg"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development :: Debuggers",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Framework :: Pytest",
+]
+
+[[project.authors]]
+name = "Bloomberg LP"
+email = "mcorcherojim@bloomberg.net"
+
+[project.entry-points.pytest11]
+pystack = "pytest_pystack.plugin"
+
+
+[tool.isort]
+force_single_line = true
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+known_first_party=["pytest_pystack"]
+known_third_party=["pytest"]
