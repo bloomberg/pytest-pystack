@@ -4,7 +4,7 @@ from typing import Optional
 
 @dataclasses.dataclass
 class PystackConfig:
-    timeout: float
+    threshold: float
     pystack_path: str
     output_file: Optional[str] = None
     print_stderr: bool = True

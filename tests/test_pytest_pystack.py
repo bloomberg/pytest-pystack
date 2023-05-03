@@ -71,7 +71,7 @@ def test_default_pystack_options(testdir, monkeypatch, capfd):
     monkeypatch.chdir(testdir.tmpdir)
     testdir.makepyfile(SLEEPING_TEST_5S)
 
-    testdir.runpytest("--pystack-timeout=1", "-s")
+    testdir.runpytest("--pystack-threshold=1", "-s")
 
     # Outputs to stderr
     _, stderr = capfd.readouterr()
@@ -99,7 +99,7 @@ def test_silent_when_debugging_by_default(testdir, monkeypatch):
         text=True,
     )
     pytest_process = subprocess.Popen(
-        ["pytest", "--pystack-timeout=1", "-s"],
+        ["pytest", "--pystack-threshold=1", "-s"],
         stdin=user_process.stdout,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -131,7 +131,7 @@ def test_silent_only_in_debugging_tests(testdir, monkeypatch):
         text=True,
     )
     pytest_process = subprocess.Popen(
-        ["pytest", "--pystack-timeout=1", "-s"],
+        ["pytest", "--pystack-threshold=1", "-s"],
         stdin=user_process.stdout,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -160,7 +160,7 @@ def test_silent_in_debugged_tests_failing_before_timeout(testdir, monkeypatch):
         text=True,
     )
     pytest_process = subprocess.Popen(
-        ["pytest", "--pystack-timeout=1", "--pdb", "-s"],
+        ["pytest", "--pystack-threshold=1", "--pdb", "-s"],
         stdin=user_process.stdout,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -179,15 +179,15 @@ def test_silent_in_debugged_tests_failing_before_timeout(testdir, monkeypatch):
 @pytest.mark.parametrize(
     ["pytestarg", "pytestconfig"],
     [
-        ("--pystack-timeout=1", ""),  # configured in CLI
-        ("", "pystack_timeout=1"),  # configured in config file
-        ("--pystack-timeout=1", "pystack_timeout=10"),  # CLI takes preference
+        ("--pystack-threshold=1", ""),  # configured in CLI
+        ("", "pystack_threshold=1"),  # configured in config file
+        ("--pystack-threshold=1", "pystack_threshold=10"),  # CLI takes preference
     ],
 )
 @pytest.mark.parametrize(
     "pystack_is_triggered", [True, False], ids=["Triggered", "Not triggered"]
 )
-def test_timeout_option(
+def test_threshold_option(
     testdir, monkeypatch, capfd, pytestarg, pytestconfig, pystack_is_triggered
 ):
     monkeypatch.chdir(testdir.tmpdir)
@@ -218,7 +218,7 @@ def test_output_file_option(testdir, monkeypatch, pytestarg, pytestconfig):
     testdir.makepyfile(SLEEPING_TEST_5S)
 
     config_file = testdir.makepyprojecttoml(serialize_config(pytestconfig))
-    testdir.runpytest("--pystack-timeout=1", pytestarg, "-s", f"-c={config_file}")
+    testdir.runpytest("--pystack-threshold=1", pytestarg, "-s", f"-c={config_file}")
 
     # Outputs to stderr
     with open("./pystack_output.log") as f:
@@ -239,7 +239,7 @@ def test_pystack_args(testdir, monkeypatch, pytestarg, pytestconfig, capfd):
     testdir.makepyfile(SLEEPING_TEST_5S)
 
     config_file = testdir.makepyprojecttoml(serialize_config(pytestconfig))
-    testdir.runpytest("--pystack-timeout=1", pytestarg, "-s", f"-c={config_file}")
+    testdir.runpytest("--pystack-threshold=1", pytestarg, "-s", f"-c={config_file}")
 
     # Outputs to stderr
     _, stderr = capfd.readouterr()
@@ -256,7 +256,7 @@ def test_both_setup_and_teardown_called_for_all_tests(testdir, monkeypatch, test
 
     # WHEN
     pytest_process = subprocess.Popen(
-        ["pytest", "--pystack-timeout=1", "-s"],
+        ["pytest", "--pystack-threshold=1", "-s"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
@@ -274,7 +274,7 @@ def test_parallel_threads_pytestxdist(testdir, monkeypatch, capfd):
         SLEEPING_TEST_5S + TEST_FAILING_AFTER_TIMEOUT + NON_DEBUGGING_TEST
     )
 
-    testdir.runpytest("--pystack-timeout=1", "-s", "-n=3")
+    testdir.runpytest("--pystack-threshold=1", "-s", "-n=3")
 
     # Outputs to stderr
     _, stderr = capfd.readouterr()
@@ -296,7 +296,7 @@ def test_two_slow_tests_in_a_suite_prints_both(testdir, monkeypatch, capfd):
 
     testdir.makepyfile(test_case)
 
-    testdir.runpytest("--pystack-timeout=1", "-s")
+    testdir.runpytest("--pystack-threshold=1", "-s")
 
     # Outputs to stderr
     _, stderr = capfd.readouterr()

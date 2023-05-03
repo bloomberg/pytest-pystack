@@ -7,26 +7,27 @@ from ._debug_detect import debug_detected
 
 @pytest.hookimpl
 def pytest_enter_pdb():  # This needs to be in the plugin.py file to work
-    """Stop the timeouts when we entered pdb.
-    This stops timeouts from triggering when pytest's builtin pdb
+    """Prevents running pystack when we entered pdb.
+
+    This disables the plugin logic when pytest's builtin pdb
     support notices we entered pdb.
     """
     # Since pdb.set_trace happens outside of any pytest control, we don't have
     # any pytest ``item`` here, so we cannot use timeout_teardown. Thus, we
-    # need another way to signify that the timeout should not be performed.
+    # need another way to signify that pystack should not be run.
     debug_detected.set()
 
 
 def pytest_addoption(parser) -> None:
     group = parser.getgroup("pystack")
-    timeout_help = "Generate a pystack report after a timeout in seconds."
+    threshold_help = "Generate a pystack report after a threshold in seconds."
     group.addoption(
-        "--pystack-timeout",
+        "--pystack-threshold",
         type=float,
         required=False,
-        help=timeout_help,
+        help=threshold_help,
     )
-    parser.addini("pystack_timeout", timeout_help)
+    parser.addini("pystack_threshold", threshold_help)
 
     output_file_help = "Output file. Results will be appended."
     group.addoption(
@@ -76,8 +77,8 @@ def _get_cli_or_file_value(pytest_config, key):
 def pytest_configure(config) -> None:
     config._pystack_queue = None
     config._pystack_config = None
-    timeout = _get_cli_or_file_value(config, "pystack_timeout")
-    if not timeout:
+    threshold = _get_cli_or_file_value(config, "pystack_threshold")
+    if not threshold:
         return  # not configured
 
     output_file = _get_cli_or_file_value(config, "pystack_output_file")
@@ -85,7 +86,7 @@ def pytest_configure(config) -> None:
     pystack_path = _get_cli_or_file_value(config, "pystack_path")
 
     pystack_config = _config.PystackConfig(
-        timeout=float(timeout),
+        threshold=float(threshold),
         output_file=output_file or None,
         pystack_path=pystack_path,
         pystack_args=pystack_args or None,

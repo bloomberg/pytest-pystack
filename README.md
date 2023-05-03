@@ -19,15 +19,15 @@ To install the PyStack pytest plug-in, just run the following command in your ve
 ## Quick Start
 
 After you have installed the pytest plug-in, you can have PyStack monitor your test suite and output a stack trace if a test takes more than 5
-seconds, simply by running pytest with argument `--pystack-timeout=5`.
+seconds, simply by running pytest with argument `--pystack-threshold=5`.
 
 ## Configuration
 
 The PyStack plug-in can be configured via the command line with the following options:
 
--   `--pystack-timeout`: Enables the plug-in and monitors all tests,
+-   `--pystack-threshold`: Enables the plug-in and monitors all tests,
     generating a stack trace if they take longer than the specified
-    timeout. Note, this neither stops nor fails the test case after the specified timeout.
+    threshold. Note, this neither stops nor fails the test case after the specified threshold.
 -   `--pystack-output-file`: Appends PyStack output to a file.
 -   `--pystack-path`: Path to the `pystack` executable.
 -   `--pystack-args`: Additional args to pass to `pystack remote <pid>`,
@@ -37,7 +37,7 @@ And through any pytest config file, see an example of `pyproject.toml`:
 
 ```toml
 [tool.pytest.ini_options]
-pystack_timeout=60
+pystack_threshold=60
 pystack_path="custom-version-of-pystack"
 pystack_output_file="./pystack.log"
 pystack_args="--native"
