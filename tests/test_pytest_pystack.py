@@ -179,9 +179,9 @@ def test_silent_in_debugged_tests_failing_before_timeout(testdir, monkeypatch):
 @pytest.mark.parametrize(
     ["pytestarg", "pytestconfig"],
     [
-        ("--pystack-threshold=1", ""),  # configured in CLI
-        ("", "pystack_threshold=1"),  # configured in config file
-        ("--pystack-threshold=1", "pystack_threshold=10"),  # CLI takes preference
+        ("--pystack-threshold=2", ""),  # configured in CLI
+        ("", "pystack_threshold=2"),  # configured in config file
+        ("--pystack-threshold=2", "pystack_threshold=10"),  # CLI takes preference
     ],
 )
 @pytest.mark.parametrize(
