@@ -18,7 +18,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.12-dev'
     - name: Install Python dependencies
       run: |
         python3 -m pip install -r requirements-dev.txt
@@ -34,13 +34,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python_version: ["3.8", "3.9", "3.10", "3.11"]
+        python_version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python_version }}
+        python-version: ${{ matrix.python_version }}-dev
     - name: Install Python dependencies
       run: |
         python${{matrix.python_version}} -m pip install -r requirements-dev.txt
