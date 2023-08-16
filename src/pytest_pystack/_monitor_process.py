@@ -1,4 +1,3 @@
-import atexit
 import multiprocessing
 import os
 import shlex
@@ -9,22 +8,31 @@ from queue import Empty
 from ._config import PystackConfig
 from ._debug_detect import debug_detected
 
+_queue = multiprocessing.Queue()
+_process = None
+
 
 def start(config):
-    queue = multiprocessing.Queue()
-
-    process = multiprocessing.Process(
+    global _process
+    _process = multiprocessing.Process(
         target=_run_monitor,
         args=(
             config,
             os.getpid(),
-            queue,
+            _queue,
         ),
         name="pystack_monitor",
     )
-    process.start()
-    atexit.register(_stop, process, queue)
-    return queue
+    _process.start()
+    return _queue
+
+
+def stop():
+    if _process:
+        _queue.put_nowait(None)
+        _process.join(timeout=5)
+        if _process.is_alive():
+            _process.kill()
 
 
 def _run_monitor(config: PystackConfig, pid, queue):
@@ -67,8 +75,3 @@ def _run_monitor(config: PystackConfig, pid, queue):
             if config.output_file:
                 with open(config.output_file, "a") as f:
                     print(output, file=f)
-
-
-def _stop(process, queue):
-    queue.put(None)
-    process.join(timeout=5)
