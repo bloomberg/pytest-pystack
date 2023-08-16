@@ -93,3 +93,8 @@ def pytest_configure(config) -> None:
         print_stderr=True,
     )
     config._pystack_queue = _monitor_process.start(pystack_config)
+
+
+@pytest.hookimpl
+def pytest_sessionfinish(session, exitstatus):
+    _monitor_process.stop()
