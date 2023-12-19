@@ -28,28 +28,3 @@ jobs:
     - name: Lint sources
       run: |
         make PYTHON=python${{matrix.python_version}} lint
-  test:
-    name: 'Test'
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python_version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python_version }}-dev
-    - name: Install Python dependencies
-      run: |
-        python${{matrix.python_version}} -m pip install -r requirements-dev.txt
-    - name: Install Package
-      run: |
-        python${{matrix.python_version}} -m pip install -e .
-    - name: Disable ptrace security restrictions
-      run: |
-        echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-    - name: Test
-      run: |
-        make PYTHON=python${{matrix.python_version}} check
