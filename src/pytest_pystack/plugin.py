@@ -62,7 +62,11 @@ def pytest_addoption(parser) -> None:
 
 @pytest.hookimpl
 def pytest_runtest_makereport(item, call):
-    if call.when in {"setup", "teardown"} and item.config._pystack_queue:
+    if (
+        call.when in {"setup", "teardown"}
+        and item.config._pystack_queue
+        and "pytester" not in item.fixturenames
+    ):
         item.config._pystack_queue.put(item.name)
 
 

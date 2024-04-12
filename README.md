@@ -12,7 +12,7 @@
 
 A pytest plug-in for easy integration of PyStack in your test suite.
 
-It can be used to automatically dump the stack trace of a hanging test in your suite.
+It can be used to automatically dump the stack trace of a hanging test in your suite (with exception to test using `pytester` fixture).
 
 See [PyStack](https://github.com/bloomberg/pystack) for further information about the tool.
 
