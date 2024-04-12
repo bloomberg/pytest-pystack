@@ -53,7 +53,12 @@ def _run_monitor(config: PystackConfig, pid, queue):
         handled_test_cases.add(testcase)
 
         try:
-            if queue.get(timeout=config.threshold) != testcase:
+            new_testcase = queue.get(timeout=config.threshold)
+            if new_testcase != testcase:
+                print(
+                    f"new test {new_testcase} should not start before previous {testcase} test finished",
+                    file=sys.__stderr__,
+                )
                 raise Exception(
                     "new test should not start before previous test finished"
                 )

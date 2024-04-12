@@ -14,6 +14,6 @@ format:
 
 .PHONY: lint
 lint:
-	$(PYTHON) -m ruff $(python_files)
+	$(PYTHON) -m ruff check $(python_files)
 	$(PYTHON) -m isort --check $(python_files)
 	$(PYTHON) -m black --check $(python_files)

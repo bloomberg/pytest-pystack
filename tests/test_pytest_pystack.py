@@ -303,3 +303,38 @@ def test_two_slow_tests_in_a_suite_prints_both(testdir, monkeypatch, capfd):
     print(stderr)
     assert "PYSTACK  -- test_sleeping_test" in stderr
     assert "PYSTACK  -- test_sleeping_test2" in stderr
+
+
+def test_pytester_compat(testdir, capfd, monkeypatch):
+    """Make sure that our make_napari_viewer plugin works."""
+
+    # create a temporary pytest test file
+
+    monkeypatch.chdir(testdir.tmpdir)
+    testdir.makepyfile(
+        """
+pytest_plugins = 'pytester'
+
+test_file ='''
+import time
+
+
+def test_sleep():
+    time.sleep(1)
+    assert 1 == 1
+'''
+
+
+def test_pytester(pytester):
+    pytester.makepyfile(test_file)
+    result = pytester.runpytest()
+    result.assert_outcomes(passed=1)
+    """
+    )
+    result = testdir.runpytest("--pystack-threshold=3", "-s")
+
+    # check that all 1 test passed
+    result.assert_outcomes(passed=1)
+
+    _, stderr = capfd.readouterr()
+    assert not stderr
