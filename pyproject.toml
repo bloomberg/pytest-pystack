@@ -6,7 +6,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = "pytest-pystack"
-version = "1.0.1"
+version = "1.0.2"
 description = "Plugin to run pystack after a timeout for a test suite."
 requires-python = ">=3.8"
 dependencies = [
