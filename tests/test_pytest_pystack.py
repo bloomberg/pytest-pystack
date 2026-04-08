@@ -80,12 +80,10 @@ def test_default_pystack_options(testdir, monkeypatch, capfd):
 
 
 def serialize_config(pystack_config):
-    return textwrap.dedent(
-        f"""
+    return textwrap.dedent(f"""
         [tool.pytest.ini_options]
         {pystack_config}
-    """
-    )
+    """)
 
 
 def test_silent_when_debugging_by_default(testdir, monkeypatch):
@@ -311,8 +309,7 @@ def test_pytester_compat(testdir, capfd, monkeypatch):
     # create a temporary pytest test file
 
     monkeypatch.chdir(testdir.tmpdir)
-    testdir.makepyfile(
-        """
+    testdir.makepyfile("""
 pytest_plugins = 'pytester'
 
 test_file ='''
@@ -329,8 +326,7 @@ def test_pytester(pytester):
     pytester.makepyfile(test_file)
     result = pytester.runpytest()
     result.assert_outcomes(passed=1)
-    """
-    )
+    """)
     result = testdir.runpytest("--pystack-threshold=3", "-s")
 
     # check that all 1 test passed
