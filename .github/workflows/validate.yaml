@@ -11,14 +11,14 @@ on:
 
 jobs:
   lint:
-    name: 'Lint'
+    name: "Lint"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12-dev'
+        python-version: "3.14"
     - name: Install Python dependencies
       run: |
         python3 -m pip install -r requirements-dev.txt
@@ -27,4 +27,4 @@ jobs:
         python3 -m pip install -e .
     - name: Lint sources
       run: |
-        make PYTHON=python${{matrix.python_version}} lint
+        make PYTHON=python3 lint
