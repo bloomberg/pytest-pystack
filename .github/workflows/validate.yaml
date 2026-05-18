@@ -1,5 +1,7 @@
 name: Validate
 
+permissions: {}
+
 on:
   push:
     branches:
@@ -14,9 +16,11 @@ jobs:
     name: 'Lint'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+      with:
+        persist-credentials: false
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c # v4
       with:
         python-version: '3.12-dev'
     - name: Install Python dependencies
@@ -27,4 +31,6 @@ jobs:
         python3 -m pip install -e .
     - name: Lint sources
       run: |
-        make PYTHON=python${{matrix.python_version}} lint
+        make lint
+    - name: Run zizmor 🌈
+      uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d # v0.5.6
