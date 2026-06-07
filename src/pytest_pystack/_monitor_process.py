@@ -20,6 +20,7 @@ def start(config):
             config,
             os.getpid(),
             _queue,
+            debug_detected,
         ),
         name="pystack_monitor",
     )
@@ -35,7 +36,7 @@ def stop():
             _process.kill()
 
 
-def _run_monitor(config: PystackConfig, pid, queue):
+def _run_monitor(config: PystackConfig, pid, queue, debug_detected):
     pystack_cmd = [
         config.pystack_path,
         "remote",
