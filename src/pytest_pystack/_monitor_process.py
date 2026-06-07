@@ -1,4 +1,3 @@
-import multiprocessing
 import os
 import shlex
 import subprocess
@@ -7,14 +6,15 @@ from queue import Empty
 
 from ._config import PystackConfig
 from ._debug_detect import debug_detected
+from ._multiprocessing_context import MP_CTX
 
-_queue = multiprocessing.Queue()
+_queue = MP_CTX.Queue()
 _process = None
 
 
 def start(config):
     global _process
-    _process = multiprocessing.Process(
+    _process = MP_CTX.Process(
         target=_run_monitor,
         args=(
             config,

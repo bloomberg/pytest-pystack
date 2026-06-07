@@ -1,8 +1,9 @@
 import inspect  # used for introspection of module name
-import multiprocessing
 import sys
 
-debug_detected = multiprocessing.Event()
+from ._multiprocessing_context import MP_CTX
+
+debug_detected = MP_CTX.Event()
 # bdb covers pdb, ipdb, and possibly others
 # pydevd covers PyCharm, VSCode, and possibly others
 KNOWN_DEBUGGING_MODULES = {"pydevd", "bdb", "pydevd_frame_evaluator"}
