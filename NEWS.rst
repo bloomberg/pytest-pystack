@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+pytest-pystack 1.1.0 (2026-06-30)
+---------------------------------
+
+Features
+~~~~~~~~
+
+- Add Python 3.13 and 3.14 support.
+
+Bug Fixes
+~~~~~~~~~
+
+- Use the "spawn" start method unconditionally for the monitor process,
+  fixing compatibility issues with non-fork multiprocessing start methods.
+
+
 pytest-pystack 1.0.2 (2024-11-16)
 ----------------------------------
 
