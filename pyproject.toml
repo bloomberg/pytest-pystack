@@ -38,6 +38,20 @@ email = "mcorcherojim@bloomberg.net"
 pystack = "pytest_pystack.plugin"
 
 
+[tool.towncrier]
+package = "pytest_pystack"
+package_dir = "src"
+filename = "NEWS.rst"
+directory = "news"
+type = [
+  { name = "Features",                  directory = "feature", showcontent = true },
+  { name = "Deprecations and Removals", directory = "removal", showcontent = true },
+  { name = "Bug Fixes",                 directory = "bugfix",  showcontent = true },
+  { name = "Improved Documentation",    directory = "doc",     showcontent = true },
+  { name = "Miscellaneous",             directory = "misc",    showcontent = true },
+]
+underlines = "-~"
+
 [tool.isort]
 force_single_line = true
 multi_line_output = 3
