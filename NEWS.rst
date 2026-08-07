@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+pytest-pystack 1.1.1 (2026-08-07)
+---------------------------------
+
+Features
+~~~~~~~~
+
+- Declare support for Python 3.15.
+
+
 pytest-pystack 1.1.0 (2026-06-30)
 ---------------------------------
 
