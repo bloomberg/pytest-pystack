@@ -30,7 +30,7 @@ def monitor(config: PystackConfig, pid, queue, debug_detected):
                     f"new test {new_testcase} should not start before previous {testcase} test finished",
                     file=sys.__stderr__,
                 )
-                raise Exception(
+                raise RuntimeError(
                     "new test should not start before previous test finished"
                 )
         except Empty:
@@ -41,6 +41,7 @@ def monitor(config: PystackConfig, pid, queue, debug_detected):
                 [*pystack_cmd, str(pid)],
                 stdout=subprocess.PIPE,
                 text=True,
+                check=False,
             )
             output += proc.stdout
             output += "**** PYSTACK  ***\n"

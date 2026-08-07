@@ -29,7 +29,6 @@ def is_debugging(tracefunc):
     This is done by checking if the module that is the origin
     of the trace function is in KNOWN_DEBUGGING_MODULES.
     """
-    global KNOWN_DEBUGGING_MODULES
     if tracefunc and inspect.getmodule(tracefunc):
         parts = inspect.getmodule(tracefunc).__name__.split(".")
         for name in KNOWN_DEBUGGING_MODULES:
