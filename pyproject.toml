@@ -61,3 +61,11 @@ use_parentheses = true
 line_length = 88
 known_first_party=["pytest_pystack"]
 known_third_party=["pytest"]
+
+[tool.ruff.lint]
+ignore = [
+  "FA100",  # Add `from __future__ import annotations` to every file
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
